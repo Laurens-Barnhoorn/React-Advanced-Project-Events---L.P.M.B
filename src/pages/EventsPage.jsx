@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import eventsData from "../events.json";
+import eventsData from "../../events.json";
 
 const EventsPage = () => {
   const [events, setEvents] = useState([]);

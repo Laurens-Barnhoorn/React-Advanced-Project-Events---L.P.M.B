@@ -6,6 +6,8 @@ const AddEvent = () => {
   const [location, setLocation] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [category, setCategory] = useState("sports");
+  const [image, setImage] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
@@ -14,18 +16,18 @@ const AddEvent = () => {
     setError(null);
 
     try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("location", location);
+      formData.append("startTime", startTime);
+      formData.append("endTime", endTime);
+      formData.append("category", category);
+      formData.append("image", image);
+
       const response = await fetch("http://localhost:3000/events", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          location,
-          startTime,
-          endTime,
-        }),
+        body: formData,
       });
 
       if (response.ok) {
@@ -38,6 +40,10 @@ const AddEvent = () => {
         "An error occurred while adding the event. Please try again later."
       );
     }
+  };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
   };
 
   return (
@@ -88,6 +94,27 @@ const AddEvent = () => {
             id="endTime"
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="category">Category:</label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="sports">Sports</option>
+            <option value="games">Games</option>
+            <option value="relaxation">Relaxation</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="image">Image:</label>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            onChange={handleImageChange}
           />
         </div>
         <button type="submit">Submit</button>

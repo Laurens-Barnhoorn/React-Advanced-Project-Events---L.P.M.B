@@ -1,7 +1,14 @@
 import React from "react";
 import { Heading, Text } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import eventsData from "../events.json";
+import eventsData from "../../events.json";
+
+const getCategoryName = (categoryId) => {
+  const category = eventsData.categories.find(
+    (category) => category.id === categoryId
+  );
+  return category ? category.name : "";
+};
 
 const EventPage = () => {
   const { eventId } = useParams();
@@ -20,6 +27,13 @@ const EventPage = () => {
       <Text>Location: {event.location}</Text>
       <Text>Start Time: {new Date(event.startTime).toLocaleString()}</Text>
       <Text>End Time: {new Date(event.endTime).toLocaleString()}</Text>
+      <img src={event.image} alt={event.title} />
+      <Text>
+        Categories:{" "}
+        {event.categoryIds
+          .map((categoryId) => getCategoryName(categoryId))
+          .join(", ")}
+      </Text>
     </>
   );
 };
