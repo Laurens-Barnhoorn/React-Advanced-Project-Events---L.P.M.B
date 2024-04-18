@@ -9,9 +9,6 @@ const Navigation = () => {
           <Link to="/">List of Events</Link>
         </li>
         <li>
-          <Link to="/event/1">Event</Link>
-        </li>
-        <li>
           <Link to="/add-event">Add event</Link>
         </li>
       </ul>
