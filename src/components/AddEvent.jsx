@@ -1,29 +1,44 @@
 import React, { useState } from "react";
 
 const AddEvent = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [category, setCategory] = useState("sports");
+  const [eventData, setEventData] = useState({
+    title: "",
+    description: "",
+    location: "",
+    startTime: "",
+    endTime: "",
+    categoryIds: [],
+  });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+
+  const addCategory = () => {
+    let categoryId = 0;
+    switch (eventData.category) {
+      case "sports":
+        categoryId = 1;
+        break;
+      case "games":
+        categoryId = 2;
+        break;
+      case "relaxation":
+        categoryId = 3;
+        break;
+      default:
+        break;
+    }
+
+    setEventData((prevEventData) => ({
+      ...prevEventData,
+      categoryIds: [...prevEventData.categoryIds, categoryId],
+    }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null);
 
     try {
-      const eventData = {
-        title,
-        description,
-        location,
-        startTime,
-        endTime,
-        category,
-      };
-
       const response = await fetch("http://localhost:3000/events", {
         method: "POST",
         headers: {
@@ -55,16 +70,20 @@ const AddEvent = () => {
           <input
             type="text"
             id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={eventData.title}
+            onChange={(e) =>
+              setEventData({ ...eventData, title: e.target.value })
+            }
           />
         </div>
         <div>
           <label htmlFor="description">Description:</label>
           <textarea
             id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={eventData.description}
+            onChange={(e) =>
+              setEventData({ ...eventData, description: e.target.value })
+            }
           ></textarea>
         </div>
         <div>
@@ -72,8 +91,10 @@ const AddEvent = () => {
           <input
             type="text"
             id="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            value={eventData.location}
+            onChange={(e) =>
+              setEventData({ ...eventData, location: e.target.value })
+            }
           />
         </div>
         <div>
@@ -81,8 +102,10 @@ const AddEvent = () => {
           <input
             type="datetime-local"
             id="startTime"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
+            value={eventData.startTime}
+            onChange={(e) =>
+              setEventData({ ...eventData, startTime: e.target.value })
+            }
           />
         </div>
         <div>
@@ -90,21 +113,28 @@ const AddEvent = () => {
           <input
             type="datetime-local"
             id="endTime"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
+            value={eventData.endTime}
+            onChange={(e) =>
+              setEventData({ ...eventData, endTime: e.target.value })
+            }
           />
         </div>
         <div>
           <label htmlFor="category">Category:</label>
           <select
             id="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={eventData.category}
+            onChange={(e) =>
+              setEventData({ ...eventData, category: e.target.value })
+            }
           >
             <option value="sports">Sports</option>
             <option value="games">Games</option>
             <option value="relaxation">Relaxation</option>
           </select>
+          <button type="button" onClick={addCategory}>
+            Add Category
+          </button>
         </div>
         <button type="submit">Submit</button>
       </form>

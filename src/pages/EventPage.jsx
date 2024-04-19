@@ -7,9 +7,8 @@ import {
   FormControl,
   FormLabel,
   Input,
-  useToast,
 } from "@chakra-ui/react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import eventsData from "../../events.json";
 
 const getCategoryName = (categoryId) => {
@@ -21,11 +20,10 @@ const getCategoryName = (categoryId) => {
 
 const EventPage = () => {
   const { eventId } = useParams();
-  const history = useHistory();
+  const history = useNavigate();
   const [event, setEvent] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedEvent, setEditedEvent] = useState(null);
-  const toast = useToast();
 
   const toggleEdit = () => {
     setIsEditing(!isEditing);
@@ -53,22 +51,12 @@ const EventPage = () => {
       });
 
       if (response.ok) {
-        toast({
-          title: "Event updated",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
+        alert("Event updated successfully");
       } else {
         throw new Error("Failed to update event");
       }
     } catch (error) {
-      toast({
-        title: "Failed to update event",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      alert("Failed to update event");
     }
 
     setIsEditing(false);
@@ -85,23 +73,13 @@ const EventPage = () => {
         );
 
         if (response.ok) {
-          toast({
-            title: "Event deleted",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-          });
+          alert("Event deleted successfully");
           history.push("/events");
         } else {
           throw new Error("Failed to delete event");
         }
       } catch (error) {
-        toast({
-          title: "Failed to delete event",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
+        alert("Failed to delete event");
       }
     }
   };
