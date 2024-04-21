@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Heading, Input, Stack, Select } from "@chakra-ui/react";
+import { Heading, Input, Stack, Select, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import eventsData from "../../events.json";
 
@@ -26,12 +26,10 @@ const EventsPage = () => {
 
   return (
     <Stack spacing={4} align="center">
-      {" "}
       <Heading style={{ fontSize: "2rem", fontWeight: "bold", color: "#333" }}>
         List of Events
       </Heading>
       <Stack direction="row" spacing={4} align="center">
-        {" "}
         <Input
           placeholder="Search events by name"
           value={searchQuery}
@@ -50,16 +48,31 @@ const EventsPage = () => {
         </Select>
       </Stack>
       <ul style={{ listStyle: "none", textAlign: "center" }}>
-        {" "}
         {filteredEvents.map((event) => (
           <li key={event.id}>
             <Link to={`/event/${event.id}`} style={{ color: "#ba7718" }}>
-              {" "}
               {event.title}
             </Link>
           </li>
         ))}
       </ul>
+      <Link to="/add-event">
+        <Link to="/add-event">
+          <Button
+            marginBottom="1rem"
+            backgroundColor="#f5b042"
+            color="#fff"
+            cursor="pointer"
+            border="1px solid #ccc"
+            borderRadius="4px"
+            padding="0.5rem"
+            display="block"
+            margin="0 auto"
+          >
+            Add Event
+          </Button>
+        </Link>
+      </Link>
     </Stack>
   );
 };
